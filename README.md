@@ -2,10 +2,38 @@
 
 [![crates.io](https://img.shields.io/crates/v/atlas-vhd.svg)](https://crates.io/crates/atlas-vhd) [![docs.rs](https://img.shields.io/docsrs/atlas-vhd)](https://docs.rs/atlas-vhd) [![CI](https://github.com/05Narwhal/atlas-vhd/actions/workflows/ci.yml/badge.svg)](https://github.com/05Narwhal/atlas-vhd/actions/workflows/ci.yml) ![License](https://img.shields.io/crates/l/atlas-vhd.svg)
 
-Opens Microsoft virtual hard disks as a `BlockSource`: VHD (fixed, dynamic and differencing) in `vhd`, and Hyper-V VHDX in `vhdx`. Block allocation tables are bounds-checked and unallocated blocks read as zeros, or from the parent disk of a differencing image.
+**Open Microsoft VHD and VHDX virtual disks as a plain `BlockSource`.**
 
-- Both formats are read-only. The VHDX log is never replayed; `VhdxSource::has_log` tells a caller whether the file names one.
-- No `unsafe`. Every length, offset and count read from the disk is checked; damage is an error, not a panic.
+`atlas-vhd` reads Hyper-V and Windows virtual hard disks and presents the disk inside as a `BlockSource`, ready for `atlas-partition` and the filesystem readers.
+
+## Features
+
+- **VHD** (`vhd`): fixed, dynamic and **differencing** images.
+- **VHDX** (`vhdx`): the Hyper-V format.
+- Block allocation tables are bounds-checked. Blocks that were never written read as zeros, or from the **parent disk** of a differencing image.
+- The VHDX log is never replayed; `VhdxSource::has_log` tells a caller whether the file names one.
+
+## Quick start
+
+```rust,no_run
+use std::path::Path;
+
+use atlas_fs_core::io::block::BlockSource;
+
+let vhd = atlas_vhd::vhd::open(Path::new("disk.vhd"))?;
+let vhdx = atlas_vhd::vhdx::open(Path::new("disk.vhdx"))?;
+println!("{} and {} bytes of disk", vhd.len(), vhdx.len());
+```
+
+Both formats are read-only.
+
+## Safety and robustness
+
+- **No `unsafe`.** The crate is `#![forbid(unsafe_code)]`.
+- **On-disk bytes are hostile.** Every length, offset and count read from a disk is validated before use. Damage is returned as an error, never a panic, an unchecked index or an unbounded loop.
+- **Lints enforce it.** Clippy's `indexing_slicing`, `arithmetic_side_effects`, `unwrap_used`, `expect_used` and `panic` lints are on for the library code.
+- **Read-only.** Nothing in this crate writes to a disk or image.
+- **Fuzzed.** A `cargo-fuzz` target in `fuzz/` runs the parser on arbitrary bytes.
 
 ## Install
 
@@ -14,7 +42,9 @@ Opens Microsoft virtual hard disks as a `BlockSource`: VHD (fixed, dynamic and d
 atlas-vhd = "26.0.1-a"
 ```
 
-Minimum supported Rust version: 1.88.
+Versions follow `26.MAJOR.MINOR-STAGE`: the year, the major and minor version, and a stage letter (`a` alpha, `b` beta, `s` stable). Cargo treats a stage suffix as a pre-release, so name the version exactly as above.
+
+Minimum supported Rust version: 1.88 (edition 2024).
 
 ## Licence
 
