@@ -1,6 +1,6 @@
 # atlas-vhd
 
-<!-- badges -->[![crates.io](https://img.shields.io/crates/v/atlas-vhd.svg)](https://crates.io/crates/atlas-vhd) [![docs.rs](https://img.shields.io/docsrs/atlas-vhd)](https://docs.rs/atlas-vhd) [![CI](https://github.com/05Narwhal/atlas-vhd/actions/workflows/ci.yml/badge.svg)](https://github.com/05Narwhal/atlas-vhd/actions/workflows/ci.yml) ![License](https://img.shields.io/crates/l/atlas-vhd.svg)
+[![crates.io](https://img.shields.io/crates/v/atlas-vhd.svg)](https://crates.io/crates/atlas-vhd) [![docs.rs](https://img.shields.io/docsrs/atlas-vhd)](https://docs.rs/atlas-vhd) [![CI](https://github.com/05Narwhal/atlas-vhd/actions/workflows/ci.yml/badge.svg)](https://github.com/05Narwhal/atlas-vhd/actions/workflows/ci.yml) ![License](https://img.shields.io/crates/l/atlas-vhd.svg)
 
 Opens Microsoft virtual hard disks as a `BlockSource`: VHD (fixed, dynamic and differencing) in `vhd`, and Hyper-V VHDX in `vhdx`. Block allocation tables are bounds-checked and unallocated blocks read as zeros, or from the parent disk of a differencing image.
 
