@@ -11,7 +11,7 @@ Opens Microsoft virtual hard disks as a `BlockSource`: VHD (fixed, dynamic and d
 
 ```toml
 [dependencies]
-atlas-vhd = "0.1"
+atlas-vhd = "26.0.1-a"
 ```
 
 Minimum supported Rust version: 1.88.
