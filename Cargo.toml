@@ -6,6 +6,7 @@ rust-version = "1.88"
 license = "MIT OR Apache-2.0"
 description = "Read Microsoft VHD and VHDX virtual disks: fixed, dynamic and differencing images."
 repository = "https://github.com/05Narwhal/atlas-vhd"
+homepage = "https://julianloy.com"
 readme = "README.md"
 keywords = ["vhd", "vhdx", "hyper-v", "disk-image", "parser"]
 categories = ["filesystem", "parser-implementations"]
